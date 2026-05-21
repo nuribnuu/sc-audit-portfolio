@@ -1,5 +1,102 @@
-# title: PasswordStore Audit Report
-# author: Muhammad Nur Ibnu Hubab
+---
+title: Protocol Audit Report
+author: Muhammad Nur Ibnu Hubab
+date: May 21, 2025
+header-includes:
+  - \usepackage{titling}
+  - \usepackage{graphicx}
+---
+
+\begin{titlepage}
+\centering
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{logo.pdf}
+\end{figure}
+\vspace*{2cm}
+{\Huge\bfseries Protocol Audit Report\par}
+\vspace{1cm}
+{\Large Version 1.0\par}
+\vspace{2cm}
+{\Large\itshape nuribnuu.vercel.app\par}
+\vfill
+{\large \today\par}
+\end{titlepage}
+
+\maketitle
+
+<!-- Your report starts here! -->
+
+Prepared by: [Muhammad Nur Ibnu Hubab](https://nuribnuu.vercel.app)
+Lead Auditors:
+
+- Muhammad Nur Ibnu Hubab
+
+# Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Protocol Summary](#protocol-summary)
+- [Disclaimer](#disclaimer)
+- [Risk Classification](#risk-classification)
+- [Audit Details](#audit-details)
+  - [Scope](#scope)
+  - [Roles](#roles)
+  - [Issues found](#issues-found)
+- [Findings](#findings)
+- [High](#high)
+    - [\[H-1\] `PasswordStore::setPassword` has no access controls, meaning a non-owner could change the password](#h-1-passwordstoresetpassword-has-no-access-controls-meaning-a-non-owner-could-change-the-password)
+    - [\[H-2\] Storing the password on-chain makes it visible to anyone, no longer private](#h-2-storing-the-password-on-chain-makes-it-visible-to-anyone-no-longer-private)
+- [Informational](#informational)
+    - [\[I-1\] The `PasswordStore::getPassword` natspec indicates a parameter that doesn't exist](#i-1-the-passwordstoregetpassword-natspec-indicates-a-parameter-that-doesnt-exist)
+
+# Protocol Summary
+
+A smart contract application for storing a password. Users should be able to store a password and then retrieve it later. Others should not be able to access the password.
+
+# Disclaimer
+
+The Muhammad Nur Ibnu Hubab team makes all effort to find as many vulnerabilities in the code in the given time period, but holds no responsibilities for the findings provided in this document. A security audit by the team is not an endorsement of the underlying business or product. The audit was time-boxed and the review of the code was solely on the security aspects of the Solidity implementation of the contracts.
+
+# Risk Classification
+
+|            |        | Impact |        |     |
+| ---------- | ------ | ------ | ------ | --- |
+|            |        | High   | Medium | Low |
+|            | High   | H      | H/M    | M   |
+| Likelihood | Medium | H/M    | M      | M/L |
+|            | Low    | M      | M/L    | L   |
+
+We use the [CodeHawks](https://docs.codehawks.com/hawks-auditors/how-to-evaluate-a-finding-severity) severity matrix to determine severity. See the documentation for more details.
+
+# Audit Details
+
+Commit Hash: `7d55682ddc4301a7b13ae9413095feffd9924566`
+
+## Scope
+
+```
+./src/
+#- PasswordStore.sol
+```
+
+## Roles
+
+- Owner: The user who can set the password and read the password.
+- Outsides: No one else should be able to set or read the password.
+
+## Issues found
+
+| Severiti | Number of issues found |
+| -------- | ---------------------- |
+| High     | 2                      |
+| Medium   | 0                      |
+| Low      | 0                      |
+| Info     | 1                      |
+| Total    | 3                      |
+
+# Findings
+
+# High
 
 ### [H-1] `PasswordStore::setPassword` has no access controls, meaning a non-owner could change the password
 
@@ -93,6 +190,8 @@ if(msg.sender != owner) {
   revert PasswordStore__NotOwner;
 }
 ```
+
+# Informational
 
 ### [I-1] The `PasswordStore::getPassword` natspec indicates a parameter that doesn't exist
 
